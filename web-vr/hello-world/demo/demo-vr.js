@@ -49,7 +49,8 @@ class DemoVR extends Demo {
     });
 
     window.addEventListener('vrdisplaydeactivate', _ => {
-      this._deactivateVR();
+	this._activateVR();
+//      this._deactivateVR();
     });
   }
 
