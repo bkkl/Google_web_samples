@@ -126,7 +126,7 @@ class Demo {
     // Room.
     const roomGeometry = new THREE.BoxGeometry(10, 2, 10, 10, 2, 10);
     const roomMaterial = new THREE.MeshBasicMaterial({
-      wireframe: true,
+      wireframe: false,
       opacity: 0.3,
       transparent: true,
       side: THREE.BackSide
