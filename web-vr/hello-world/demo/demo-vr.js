@@ -161,9 +161,22 @@ class DemoVR extends Demo {
 
     // Clear the canvas manually.
     this._renderer.clear();
-
+	this._box2.visible = false;
+	// Right eye.
+    this._renderREye(
+      this._vr.frameData.rightViewMatrix,
+      this._vr.frameData.rightProjectionMatrix, {
+        x: EYE_WIDTH,
+        y: 0,
+        w: EYE_WIDTH,
+        h: EYE_HEIGHT
+      });
+	
+	// Ensure that left eye calcs aren't going to interfere with right eye ones.
+    this._renderer.clearDepth();
+	this._box2.visible = true;
     // Left eye.
-    this._renderEye(
+    this._renderLEye(
       this._vr.frameData.leftViewMatrix,
       this._vr.frameData.leftProjectionMatrix,
       {
@@ -173,18 +186,10 @@ class DemoVR extends Demo {
         h: EYE_HEIGHT
       });
 
-    // Ensure that left eye calcs aren't going to interfere with right eye ones.
-    this._renderer.clearDepth();
 
-    // Right eye.
-    this._renderEye(
-      this._vr.frameData.rightViewMatrix,
-      this._vr.frameData.rightProjectionMatrix, {
-        x: EYE_WIDTH,
-        y: 0,
-        w: EYE_WIDTH,
-        h: EYE_HEIGHT
-      });
+
+
+
 
     // Use the VR display's in-built rAF (which can be a diff refresh rate to
     // the default browser one).
@@ -195,7 +200,21 @@ class DemoVR extends Demo {
     this._vr.display.submitFrame();
   }
 
-  _renderEye (viewMatrix, projectionMatrix, viewport) {
+// BKL - split r and l eye updates   
+  _renderLEye (viewMatrix, projectionMatrix, viewport) {
+    // Set the left or right eye half.
+    this._renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);
+
+    // Update the scene and camera matrices.
+    this._camera.projectionMatrix.fromArray(projectionMatrix);
+    this._scene.matrix.fromArray(viewMatrix);
+
+    // Tell the scene to update (otherwise it will ignore the change of matrix).
+    this._scene.updateMatrixWorld(true);
+    this._renderer.render(this._scene, this._camera);
+  }
+// BKL - split r and l eye updates  
+    _renderREye (viewMatrix, projectionMatrix, viewport) {
     // Set the left or right eye half.
     this._renderer.setViewport(viewport.x, viewport.y, viewport.w, viewport.h);
 
