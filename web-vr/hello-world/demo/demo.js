@@ -55,7 +55,7 @@ class Demo {
   }
 
   _update () {
-    const ROTATION_VALUE = 4;
+    const ROTATION_VALUE = 20;
     const time = window.performance.now() * 0.0001;
 
     this._box.rotation.x = Math.sin(time) * ROTATION_VALUE;
@@ -126,7 +126,7 @@ class Demo {
     // Room.
     const roomGeometry = new THREE.BoxGeometry(10, 2, 10, 10, 2, 10);
     const roomMaterial = new THREE.MeshBasicMaterial({
-      wireframe: false,
+      wireframe: true,
       opacity: 0.3,
       transparent: true,
       side: THREE.BackSide
