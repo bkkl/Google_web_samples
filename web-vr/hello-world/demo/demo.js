@@ -37,6 +37,7 @@ class Demo {
     this._aspect;
     this._settings;
     this._box;
+	this._box2;
     this._container = document.querySelector('#container');
 
     this.clearContainer();
@@ -55,12 +56,13 @@ class Demo {
   }
 
   _update () {
-    const ROTATION_VALUE = 01;
+    const ROTATION_VALUE = 1;
     const time = window.performance.now() * 0.0001;
 
     this._box.rotation.x = Math.sin(time) * ROTATION_VALUE;
     this._box.rotation.y = Math.cos(time) * ROTATION_VALUE;
-
+	this._box2.rotation.x = Math.sin(time) * 2;
+//	this._box2.visible = false;
     this._render();
   }
 
@@ -93,7 +95,7 @@ class Demo {
   }
 
   createRenderer () {
-    this._renderer = new THREE.WebGLRenderer();
+    this._renderer = new THREE.WebGLRenderer({ antialias: true });
     this._container.appendChild(this._renderer.domElement);
   }
 
@@ -112,19 +114,30 @@ class Demo {
   }
 
   createMeshes () {
-    const WIDTH = 1;
-    const HEIGHT = 1;
-    const DEPTH = 1;
-
+    const WIDTH = .5;
+    const HEIGHT = .5;
+    const DEPTH = .5;
+// BKL
+    const WIDTH2 = 1;
+    const HEIGHT2 = 1;
+    const DEPTH2 = 1;
+	
+	
     // Box.
     const boxGeometry = new THREE.BoxGeometry(WIDTH, HEIGHT, DEPTH);
     const boxMaterial = new THREE.MeshNormalMaterial();
 
     this._box = new THREE.Mesh(boxGeometry, boxMaterial);
-    this._box.position.z = -5;
+    this._box.position.z = -6;
+	
+
+    const boxGeometry2 = new THREE.BoxGeometry(WIDTH2, HEIGHT2, DEPTH2);	
+	this._box2 = new THREE.Mesh(boxGeometry2, boxMaterial);
+	this._box2.position.z = -6;
+	this._box2.position.x = 2;
 
     // Room.
-    const roomGeometry = new THREE.BoxGeometry(10, 2, 10, 10, 2, 10);
+    const roomGeometry = new THREE.BoxGeometry(30, 16, 40, 30, 16, 40);
     const roomMaterial = new THREE.MeshBasicMaterial({
       wireframe: true,
       opacity: 0.3,
@@ -134,7 +147,7 @@ class Demo {
     const room = new THREE.Mesh(roomGeometry, roomMaterial);
 
     room.position.z = -5;
-
+	this._scene.add(this._box2);
     this._scene.add(this._box);
     this._scene.add(room);
   }
