@@ -55,7 +55,7 @@ class Demo {
   }
 
   _update () {
-    const ROTATION_VALUE = 20;
+    const ROTATION_VALUE = 01;
     const time = window.performance.now() * 0.0001;
 
     this._box.rotation.x = Math.sin(time) * ROTATION_VALUE;
