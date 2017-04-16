@@ -72,6 +72,7 @@ class DemoVR extends Demo {
       this._vr.display.depthFar = DemoVR.CAMERA_SETTINGS.far;
 
       this._createPresentationButton();
+      this._activateVR()    
     });
   }
 
